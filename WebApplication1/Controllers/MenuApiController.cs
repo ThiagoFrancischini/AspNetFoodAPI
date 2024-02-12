@@ -5,7 +5,7 @@ using WebApplication1.Repositories;
 
 namespace WebApplication1.Controllers
 {
-    [Route("api/Menu")]
+    [Route("api/menu")]
     [ApiController]
     public class MenuApiController : Controller
     {
