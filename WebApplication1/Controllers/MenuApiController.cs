@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
         {
             try
             {
-                return Ok(menuRepository.ProcuraMenu());
+                return Ok(menuRepository.ProcuraMenu().Sections);
             }
             catch (Exception ex) 
             {
