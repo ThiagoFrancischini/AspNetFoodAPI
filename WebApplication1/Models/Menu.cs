@@ -4,8 +4,10 @@
     {
         public Menu()
         {
-            Sections = new List<Section>();
+            Categorias = new List<Categoria>();
         }
-        public List<Section> Sections { get; set; }
+        public Guid Id { get; set; }
+        public string Titulo { get; set; }
+        public List<Categoria> Categorias { get; set; }
     }
 }
