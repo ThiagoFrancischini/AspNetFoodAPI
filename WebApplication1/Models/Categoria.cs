@@ -5,6 +5,6 @@
         public Guid Id { get; set; }
         public string Title { get; set; }
         public List<Product> Data { get; set; }
-        public Menu Menu { get; set; }
+        public Guid? MenuId { get; set; }
     }
 }

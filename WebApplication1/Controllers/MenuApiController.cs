@@ -32,17 +32,10 @@ namespace WebApplication1.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult> InsereMenu()
+        public ActionResult InsereMenu(Menu menu)
         {
             try
-            {
-                
-                Menu menu = new Menu
-                {
-                    Id = Guid.NewGuid(),
-                    Titulo = "Menu principal"
-                };                
-
+            {               
                 menuRepository.InsereMenu(menu);
 
                 return Ok(menu);

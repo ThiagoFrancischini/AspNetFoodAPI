@@ -86,8 +86,21 @@ namespace WebApplication1.Repositories
         }
 
         public async void InsereMenu(Menu menu)
-        {
+        {            
+           menu.Id = Guid.NewGuid();                           
+
+           foreach(var categoria in menu.Categorias)
+           {
+               categoria.Id = Guid.NewGuid();
+
+               foreach(var produto in categoria.Data)
+               {
+                   produto.Id = Guid.NewGuid();
+               }
+           }
+
            await  contexto.Menu.AddAsync(menu);
+
            await contexto.SaveChangesAsync();  
         }
     }
