@@ -15,8 +15,7 @@ namespace WebApplication1.Controllers
         {
             menuRepository = new MenuRepository(contexto);
         }
-
-        [AllowAnonymous]
+        
         [HttpGet]
         public async Task<ActionResult<Menu>> ProcuraMenu()
         {
@@ -29,8 +28,7 @@ namespace WebApplication1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-        [AllowAnonymous]
+        
         [HttpPost]
         public ActionResult InsereMenu(Menu menu)
         {
