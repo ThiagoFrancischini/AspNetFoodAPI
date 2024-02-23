@@ -18,6 +18,7 @@ namespace NetRestaurantAPI.Models
         public string Cpf { get; set; }
         public string Password { get; set; }
         public string Endereco { get; set; }
+        public bool Autenticado { get; set; }
         public void EntidadeValida()
         {
             if(Id == Guid.Empty) 

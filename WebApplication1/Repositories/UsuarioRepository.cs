@@ -28,6 +28,7 @@ namespace NetRestaurantAPI.Repositories
             
             if(usuario != null)
             {
+                usuario.Autenticado = true;
                 return usuario;
             }
 
