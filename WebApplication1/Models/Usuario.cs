@@ -19,6 +19,7 @@ namespace NetRestaurantAPI.Models
         public string Password { get; set; }
         public string Endereco { get; set; }
         public bool Autenticado { get; set; }
+        public string Telefone { get; set; }
         public void EntidadeValida()
         {
             if(Id == Guid.Empty) 
@@ -49,6 +50,11 @@ namespace NetRestaurantAPI.Models
             if (string.IsNullOrEmpty(Endereco))
             {
                 throw new Exception("Informe um email!");
+            }
+
+            if (string.IsNullOrEmpty(Telefone) || this.Telefone.Length < 9)
+            {
+                throw new Exception("Informe um telefone válido!");
             }
         }
 
