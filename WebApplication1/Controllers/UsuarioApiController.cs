@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NetRestaurantAPI.DTOs;
 using NetRestaurantAPI.Models;
 using NetRestaurantAPI.Repositories;
 
@@ -11,7 +12,7 @@ namespace NetRestaurantAPI.Controllers
         private UsuarioRepository usuarioRepository;
         public UsuarioApiController(Contexto contexto)
         {
-            usuarioRepository = new UsuarioRepository(contexto);    
+            usuarioRepository = new UsuarioRepository(contexto);
         }
 
         [HttpPost]
@@ -30,11 +31,16 @@ namespace NetRestaurantAPI.Controllers
         }
 
         [HttpPost("Autenticar")]
-        public ActionResult<Usuario> Autenticar(string cpf, string password)
+        public ActionResult<Usuario> Autenticar(LoginDTO login)
         {
             try
             {
-                var usuario = usuarioRepository.Autenticar(cpf, password);
+                if(login == null || string.IsNullOrEmpty(login.Cpf) || string.IsNullOrEmpty(login.Cpf))
+                {
+                    throw new Exception("Dados Inválidos");
+                }
+
+                var usuario = usuarioRepository.Autenticar(login.Cpf, login.Password);
 
                 return Ok(usuario);
             }

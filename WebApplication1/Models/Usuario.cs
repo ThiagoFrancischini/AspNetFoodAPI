@@ -20,6 +20,7 @@ namespace NetRestaurantAPI.Models
         public string Endereco { get; set; }
         public bool Autenticado { get; set; }
         public string Telefone { get; set; }
+        public byte[] FotoPerfil { get;set; }
         public void EntidadeValida()
         {
             if(Id == Guid.Empty) 

@@ -24,6 +24,8 @@ namespace NetRestaurantAPI.Repositories
 
         public Usuario Autenticar(string cpf, string password)
         {
+            cpf = cpf.Replace(".", "").Replace("-", "");
+
             var usuario = contexto.Usuarios.Where(user => user.Cpf == cpf &&  user.Password.Trim() == password.Trim()).FirstOrDefault();
             
             if(usuario != null)
