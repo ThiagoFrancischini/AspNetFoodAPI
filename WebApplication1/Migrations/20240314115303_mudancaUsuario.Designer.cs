@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetRestaurantAPI.Models;
 
@@ -10,37 +11,14 @@ using NetRestaurantAPI.Models;
 namespace NetRestaurantAPI.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240314115303_mudancaUsuario")]
+    partial class mudancaUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
-
-            modelBuilder.Entity("NetRestaurantAPI.Models.Pedido", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataInclusao")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("PrecoTotal")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("StatusPedido")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid>("UsuarioId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Pedidos");
-                });
 
             modelBuilder.Entity("NetRestaurantAPI.Models.Usuario", b =>
                 {
@@ -150,9 +128,6 @@ namespace NetRestaurantAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("PedidoId")
-                        .HasColumnType("TEXT");
-
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
@@ -167,20 +142,7 @@ namespace NetRestaurantAPI.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.HasIndex("PedidoId");
-
                     b.ToTable("Produtos");
-                });
-
-            modelBuilder.Entity("NetRestaurantAPI.Models.Pedido", b =>
-                {
-                    b.HasOne("NetRestaurantAPI.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categoria", b =>
@@ -195,15 +157,6 @@ namespace NetRestaurantAPI.Migrations
                     b.HasOne("WebApplication1.Models.Categoria", null)
                         .WithMany("Data")
                         .HasForeignKey("CategoriaId");
-
-                    b.HasOne("NetRestaurantAPI.Models.Pedido", null)
-                        .WithMany("Produtos")
-                        .HasForeignKey("PedidoId");
-                });
-
-            modelBuilder.Entity("NetRestaurantAPI.Models.Pedido", b =>
-                {
-                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categoria", b =>
