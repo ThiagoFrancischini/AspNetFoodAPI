@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetRestaurantAPI.Models;
+using Newtonsoft.Json;
 
 namespace NetRestaurantAPI.Repositories
 {
@@ -14,20 +15,24 @@ namespace NetRestaurantAPI.Repositories
 
             pedido.Id = Guid.NewGuid();
 
-            pedido.StatusPedido = Enums.MyEnums.enStatusPedido.EmAnalise;            
+            pedido.StatusPedido = Enums.MyEnums.enStatusPedido.EmAnalise;
 
-            pedido.Produtos.ForEach(p => pedido.PrecoTotal += p.Price);
+            pedido.PrecoTotal = 0;
+
+            pedido.Produtos.ForEach(p => pedido.PrecoTotal += p.Price);            
 
             pedido.EntidadeValida();
 
-            contexto.Pedidos.Add(pedido);
+            contexto.Pedidos.AddAsync(pedido);
 
             contexto.SaveChanges();
         }
 
         public async Task<List<Pedido>> ProcuraPedidosPorUsuario(Guid userId)
-        {            
-            return await contexto.Pedidos.Where(p => p.Usuario.Id == userId).ToListAsync();
+        {
+            List<Pedido> pedidos = await contexto.Pedidos.Where(p => p.Usuario.Id == userId).ToListAsync();
+
+            return pedidos;
         }
 
         public async void AlteraStatusPedido(Pedido pedido)
