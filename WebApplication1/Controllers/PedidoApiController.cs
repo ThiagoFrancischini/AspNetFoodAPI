@@ -42,7 +42,9 @@ namespace NetRestaurantAPI.Controllers
                     throw new Exception("Nenhum usuario encontrado");
                 }
 
-                return Ok(pedidoRepository.ProcuraPedidosPorUsuario(userId).Result);
+                var lista = pedidoRepository.ProcuraPedidosPorUsuario(userId).Result;
+
+                return Ok(lista);
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetRestaurantAPI.Models;
 
@@ -10,9 +11,11 @@ using NetRestaurantAPI.Models;
 namespace NetRestaurantAPI.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240410115617_pedidoProduto")]
+    partial class pedidoProduto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -40,27 +43,6 @@ namespace NetRestaurantAPI.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Pedidos");
-                });
-
-            modelBuilder.Entity("NetRestaurantAPI.Models.PedidoProduto", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PedidoId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("PedidoProduto");
                 });
 
             modelBuilder.Entity("NetRestaurantAPI.Models.Usuario", b =>
@@ -117,6 +99,21 @@ namespace NetRestaurantAPI.Migrations
                     b.ToTable("Usuarios");
                 });
 
+            modelBuilder.Entity("PedidoProduct", b =>
+                {
+                    b.Property<Guid>("PedidosId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProdutosId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PedidosId", "ProdutosId");
+
+                    b.HasIndex("ProdutosId");
+
+                    b.ToTable("PedidoProduct");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Categoria", b =>
                 {
                     b.Property<Guid>("Id")
@@ -171,9 +168,6 @@ namespace NetRestaurantAPI.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("PedidoId")
-                        .HasColumnType("TEXT");
-
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
@@ -187,8 +181,6 @@ namespace NetRestaurantAPI.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
-
-                    b.HasIndex("PedidoId");
 
                     b.ToTable("Produtos");
                 });
@@ -204,23 +196,19 @@ namespace NetRestaurantAPI.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("NetRestaurantAPI.Models.PedidoProduto", b =>
+            modelBuilder.Entity("PedidoProduct", b =>
                 {
-                    b.HasOne("NetRestaurantAPI.Models.Pedido", "Pedido")
-                        .WithMany("PedidoProduto")
-                        .HasForeignKey("PedidoId")
+                    b.HasOne("NetRestaurantAPI.Models.Pedido", null)
+                        .WithMany()
+                        .HasForeignKey("PedidosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Product", "Produto")
-                        .WithMany("PedidoProduto")
-                        .HasForeignKey("ProdutoId")
+                    b.HasOne("WebApplication1.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categoria", b =>
@@ -235,17 +223,6 @@ namespace NetRestaurantAPI.Migrations
                     b.HasOne("WebApplication1.Models.Categoria", null)
                         .WithMany("Data")
                         .HasForeignKey("CategoriaId");
-
-                    b.HasOne("NetRestaurantAPI.Models.Pedido", null)
-                        .WithMany("Produtos")
-                        .HasForeignKey("PedidoId");
-                });
-
-            modelBuilder.Entity("NetRestaurantAPI.Models.Pedido", b =>
-                {
-                    b.Navigation("PedidoProduto");
-
-                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categoria", b =>
@@ -256,11 +233,6 @@ namespace NetRestaurantAPI.Migrations
             modelBuilder.Entity("WebApplication1.Models.Menu", b =>
                 {
                     b.Navigation("Categorias");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Product", b =>
-                {
-                    b.Navigation("PedidoProduto");
                 });
 #pragma warning restore 612, 618
         }

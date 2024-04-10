@@ -7,8 +7,9 @@ namespace NetRestaurantAPI.Models
     {
         public Guid Id { get; set; }
         public Usuario Usuario { get; set; }
-        public DateTime DataInclusao { get; set; }        
+        public DateTime DataInclusao { get; set; }
         public List<Product> Produtos { get; set; }
+        public List<PedidoProduto>? PedidoProduto { get; }
         public double PrecoTotal { get; set; }   
         public MyEnums.enStatusPedido? StatusPedido { get; set; }
         public void EntidadeValida()

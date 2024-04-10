@@ -1,4 +1,6 @@
-﻿namespace WebApplication1.Models
+﻿using NetRestaurantAPI.Models;
+
+namespace WebApplication1.Models
 {
     public class Product
     {
@@ -31,6 +33,7 @@
             {
                 throw new Exception("Informe um Titulo!");
             }
-        }
+        }        
+        public List<PedidoProduto>? PedidoProduto { get; }
     }
 }
