@@ -8,6 +8,6 @@ namespace NetRestaurantAPI.Models
         public Guid PedidoId { get; set; }
         public Pedido Pedido { get; set; }
         public Guid ProdutoId { get; set; }
-        public Product Produto { get; set; }        
+        public Product Produto { get; set; }                
     }
 }

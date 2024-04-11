@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NetRestaurantAPI.Enums;
 using NetRestaurantAPI.Models;
 using Newtonsoft.Json;
 using WebApplication1.Models;
@@ -61,10 +62,12 @@ namespace NetRestaurantAPI.Repositories
             {
                 foreach(var pedido in pedidos) 
                 {
-                    var produtos = contexto.Produtos.FromSqlRaw(" SELECT Produtos.Id, Produtos.CategoriaId, Produtos.Cover, Produtos.Description, Produtos.Ingredients, Produtos.Price, Produtos.Thumbnail, Produtos.Title, PedidoProduto.Id, PedidoProduto.PedidoId, PedidoProduto.ProdutoId " +
+                    string pedidoIdUpper = pedido.Id.ToString().ToUpper();
+
+                    var produtos = contexto.Produtos.FromSqlRaw(" SELECT Produtos.Id AS ProdutoId, Produtos.CategoriaId, Produtos.Cover, Produtos.Description, Produtos.Ingredients, Produtos.Price, Produtos.Thumbnail, Produtos.Title, PedidoProduto.Id, PedidoProduto.PedidoId " +
                                                                 " FROM Produtos " +
                                                                 " INNER JOIN PedidoProduto on PedidoProduto.ProdutoId = Produtos.Id  " +
-                                                                " WHERE UPPER(PedidoProduto.PedidoId)  = @p0 ", new object[] { pedido.Id.ToString().ToUpper() });
+                                                                " WHERE UPPER(PedidoProduto.PedidoId)  = @p0 " , new object[] { pedido.Id.ToString().ToUpper() });                    
 
                     pedido.Produtos = produtos.ToList();
                 }                
@@ -74,15 +77,30 @@ namespace NetRestaurantAPI.Repositories
             return pedidos;
         }
 
-        public async void AlteraStatusPedido(Pedido pedido)
+        public void AlteraStatusPedido(Pedido pedido)
         {
-            Pedido pedidoVelho = await contexto.Pedidos.FindAsync(pedido.Id) ?? throw new Exception("Não foi encontrado nenhum pedido com o Id informado");
+            contexto.Database.BeginTransaction();
 
-            pedidoVelho.StatusPedido = pedido.StatusPedido;
+            string sql = " update pedidos set StatusPedido = @p0 where id = @p1 ";
 
-            contexto.Pedidos.Update(pedidoVelho);
+            var parametrosPedido = new object[] { Convert.ToInt32(pedido.StatusPedido), pedido.Id.ToString().ToUpper() };
 
-            contexto.SaveChanges();
+            contexto.Database.ExecuteSqlRaw(sql, parametrosPedido);
+
+            contexto.Database.CommitTransaction();
+        }
+
+        public void ConfirmaEntregaPedido(Pedido pedido)
+        {
+            contexto.Database.BeginTransaction();
+
+            string sql = " update pedidos set StatusPedido = @p0, FotoEntrega = p1 where id = @p2 ";
+
+            var parametrosPedido = new object[] { Convert.ToInt32(MyEnums.enStatusPedido.Finalizado), pedido.FotoEntrega, pedido.Id.ToString().ToUpper() };
+
+            contexto.Database.ExecuteSqlRaw(sql, parametrosPedido);
+
+            contexto.Database.CommitTransaction();
         }
     }
 }

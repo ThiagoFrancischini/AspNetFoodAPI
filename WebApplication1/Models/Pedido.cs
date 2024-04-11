@@ -12,6 +12,7 @@ namespace NetRestaurantAPI.Models
         public List<PedidoProduto>? PedidoProduto { get; }
         public double PrecoTotal { get; set; }   
         public MyEnums.enStatusPedido? StatusPedido { get; set; }
+        public byte[] FotoEntrega { get; set; }
         public void EntidadeValida()
         {
             if(this.Id == Guid.Empty)
