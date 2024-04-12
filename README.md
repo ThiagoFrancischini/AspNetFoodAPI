@@ -20,4 +20,4 @@ Esta api é uma api de auxílio, e para não perder tanto tempo nela acabei opta
   -Comandos para mudar estrutura do banco.  'add-migration {nomeMigracao}' && 'update-database'
 
 # Roadmap
-Desenvolver uma interface WEB para o administrativo manipular as informações do banco e treinar meus conhecimentos de interfaces web.
+Desenvolver uma interface Web para o administrativo manipular as informações do banco com o intuito de treinar meus conhecimentos de Web.
