@@ -15,6 +15,9 @@ https://github.com/ThiagoFrancischini/ReactNativeFood
 Link do repositorio do codigo do proxy: https://github.com/icflorescu/iisexpress-proxy 
 
 # Observações e Utils
-Esta api é uma api de auxílio, e para não perder tanto tempo nela acabei optando por um banco SQLite, pois facilitava meu versionamento, e também acabei não fazendo fluxo de geração de tokens JWT para deixa-la segura e coisas do tipo. 
+Esta api é uma api de auxílio, e para não perder tanto tempo nela acabei optando por um banco SQLite, pois facilitava meu versionamento. Também acabei não fazendo fluxo de geração de tokens JWT para deixa-la segura e coisas parecidas. 
 
   -Comandos para mudar estrutura do banco.  'add-migration {nomeMigracao}' && 'update-database'
+
+# Roadmap
+Desenvolver uma interface WEB para o administrativo manipular as informações do banco e treinar meus conhecimentos de interfaces web.
