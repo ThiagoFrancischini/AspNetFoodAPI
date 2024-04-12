@@ -16,6 +16,7 @@ Link do repositorio do codigo do proxy: https://github.com/icflorescu/iisexpress
 
 # Observações e Utils
 Esta api é uma api de auxílio, e para não perder tanto tempo nela acabei optando por um banco SQLite, pois facilitava meu versionamento. Também acabei não fazendo fluxo de geração de tokens JWT para deixa-la segura e coisas parecidas. 
+Os produtos estão com a mesma foto pois não queria ir atrás de diversas fotos.
 
   -Comandos para mudar estrutura do banco.  'add-migration {nomeMigracao}' && 'update-database'
 
