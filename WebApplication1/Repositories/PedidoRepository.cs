@@ -33,7 +33,7 @@ namespace NetRestaurantAPI.Repositories
 
                 string sqlInsercaoPedido = " INSERT INTO Pedidos (Id, UsuarioId, DataInclusao, PrecoTotal, StatusPedido, FotoEntrega) VALUES (@p0, @p1, @p2, @p3, @p4, @p5) ";
 
-                var parametrosPedido = new object[] { pedido.Id.ToString().ToUpper(), pedido.Usuario.Id.ToString(), pedido.DataInclusao, pedido.PrecoTotal, Convert.ToInt32(pedido.StatusPedido), pedido.FotoEntrega };
+                var parametrosPedido = new object[] { pedido.Id.ToString().ToUpper(), pedido.Usuario.Id.ToString().ToUpper(), pedido.DataInclusao, pedido.PrecoTotal, Convert.ToInt32(pedido.StatusPedido), pedido.FotoEntrega };
 
                 contexto.Database.ExecuteSqlRaw(sqlInsercaoPedido, parametrosPedido);
 
@@ -48,11 +48,11 @@ namespace NetRestaurantAPI.Repositories
 
                 contexto.Database.CommitTransaction();                
             }
-            catch 
+            catch (Exception ex)
             {
                 contexto.Database.RollbackTransaction();
 
-                throw;
+                throw ex;
             }            
         }
 
