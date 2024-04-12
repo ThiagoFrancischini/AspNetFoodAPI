@@ -33,16 +33,16 @@ namespace NetRestaurantAPI.Controllers
         }
 
         [HttpGet("{userid}")]
-        public ActionResult<List<Pedido>> BuscaPedidos(Guid userId)
+        public ActionResult<List<Pedido>> BuscaPedidosNaoFinalizados(Guid userId)
         {
             try
             {
-                if(userId == Guid.Empty)
+               if(userId == Guid.Empty)
                 {
                     throw new Exception("Nenhum usuario encontrado");
                 }
 
-                var lista = pedidoRepository.ProcuraPedidosPorUsuario(userId).Result;
+                var lista = pedidoRepository.ProcuraPedidosPorUsuario(userId).Result;                
 
                 return Ok(lista);
             }
@@ -65,6 +65,21 @@ namespace NetRestaurantAPI.Controllers
                 pedidoRepository.AlteraStatusPedido(pedido);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("ConfirmaPedido")]
+        public ActionResult ConfirmaEntregaPedido(Pedido pedido)
+        {
+            try
+            {
+                pedidoRepository.ConfirmaEntregaPedido(pedido);
+
+                return Ok(pedido);
             }
             catch (Exception ex)
             {

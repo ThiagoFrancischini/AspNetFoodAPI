@@ -27,11 +27,13 @@ namespace NetRestaurantAPI.Repositories
 
                 pedido.Produtos.ForEach(p => pedido.PrecoTotal += p.Price);
 
+                pedido.FotoEntrega = "";
+
                 pedido.EntidadeValida();
 
-                string sqlInsercaoPedido = " INSERT INTO Pedidos (Id, UsuarioId, DataInclusao, PrecoTotal, StatusPedido) VALUES (@p0, @p1, @p2, @p3, @p4) ";
+                string sqlInsercaoPedido = " INSERT INTO Pedidos (Id, UsuarioId, DataInclusao, PrecoTotal, StatusPedido, FotoEntrega) VALUES (@p0, @p1, @p2, @p3, @p4, @p5) ";
 
-                var parametrosPedido = new object[] { pedido.Id.ToString().ToUpper(), pedido.Usuario.Id.ToString(), pedido.DataInclusao, pedido.PrecoTotal, Convert.ToInt32(pedido.StatusPedido) };
+                var parametrosPedido = new object[] { pedido.Id.ToString().ToUpper(), pedido.Usuario.Id.ToString(), pedido.DataInclusao, pedido.PrecoTotal, Convert.ToInt32(pedido.StatusPedido), pedido.FotoEntrega };
 
                 contexto.Database.ExecuteSqlRaw(sqlInsercaoPedido, parametrosPedido);
 
@@ -56,7 +58,7 @@ namespace NetRestaurantAPI.Repositories
 
         public async Task<List<Pedido>> ProcuraPedidosPorUsuario(Guid userId)
         {
-            List<Pedido> pedidos = await contexto.Pedidos.Where(p => p.Usuario.Id.ToString().ToUpper() == userId.ToString().ToUpper()).ToListAsync();
+            List<Pedido> pedidos = await contexto.Pedidos.Where(p => p.Usuario.Id.ToString().ToUpper() == userId.ToString().ToUpper() && p.StatusPedido != MyEnums.enStatusPedido.Finalizado).OrderByDescending(x=> x.DataInclusao).ToListAsync();            
 
             if(pedidos != null && pedidos.Count > 0)
             {
@@ -67,7 +69,7 @@ namespace NetRestaurantAPI.Repositories
                     var produtos = contexto.Produtos.FromSqlRaw(" SELECT Produtos.Id AS ProdutoId, Produtos.CategoriaId, Produtos.Cover, Produtos.Description, Produtos.Ingredients, Produtos.Price, Produtos.Thumbnail, Produtos.Title, PedidoProduto.Id, PedidoProduto.PedidoId " +
                                                                 " FROM Produtos " +
                                                                 " INNER JOIN PedidoProduto on PedidoProduto.ProdutoId = Produtos.Id  " +
-                                                                " WHERE UPPER(PedidoProduto.PedidoId)  = @p0 " , new object[] { pedido.Id.ToString().ToUpper() });                    
+                                                                " WHERE UPPER(PedidoProduto.PedidoId)  = @p0 ", new object[] { pedido.Id.ToString().ToUpper() });                    
 
                     pedido.Produtos = produtos.ToList();
                 }                
@@ -94,7 +96,7 @@ namespace NetRestaurantAPI.Repositories
         {
             contexto.Database.BeginTransaction();
 
-            string sql = " update pedidos set StatusPedido = @p0, FotoEntrega = p1 where id = @p2 ";
+            string sql = " update pedidos set StatusPedido = @p0, FotoEntrega = @p1 where id = @p2 ";
 
             var parametrosPedido = new object[] { Convert.ToInt32(MyEnums.enStatusPedido.Finalizado), pedido.FotoEntrega, pedido.Id.ToString().ToUpper() };
 

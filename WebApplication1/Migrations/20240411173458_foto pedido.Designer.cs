@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetRestaurantAPI.Models;
 
@@ -10,9 +11,11 @@ using NetRestaurantAPI.Models;
 namespace NetRestaurantAPI.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240411173458_foto pedido")]
+    partial class fotopedido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -26,9 +29,9 @@ namespace NetRestaurantAPI.Migrations
                     b.Property<DateTime>("DataInclusao")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FotoEntrega")
+                    b.Property<byte[]>("FotoEntrega")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("BLOB");
 
                     b.Property<double>("PrecoTotal")
                         .HasColumnType("REAL");
