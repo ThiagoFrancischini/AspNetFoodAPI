@@ -20,5 +20,9 @@ Os produtos estão com a mesma foto pois não queria ir atrás de diversas fotos
 
   -Comandos para mudar estrutura do banco.  'add-migration {nomeMigracao}' && 'update-database'
 
+# Executando
+O projeto não tem uma interface gráfica (ainda), mas aqui esta o swagger com as rotas de API:
+![image](https://github.com/ThiagoFrancischini/AspNetFoodAPI/assets/135562704/a34e52c2-e9a5-4f01-bbbc-12de589f9e05)
+
 # Roadmap
 Desenvolver uma interface Web para o administrativo manipular as informações do banco com o intuito de treinar meus conhecimentos de Web.
