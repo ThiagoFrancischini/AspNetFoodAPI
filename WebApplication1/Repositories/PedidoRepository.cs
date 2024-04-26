@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetRestaurantAPI.Enums;
 using NetRestaurantAPI.Models;
+using NetRestaurantAPI.Services;
 using Newtonsoft.Json;
 using WebApplication1.Models;
 
@@ -16,7 +17,7 @@ namespace NetRestaurantAPI.Repositories
 
                 if (pedido.Produtos == null || pedido.Produtos.Count == 0)
                 {
-                    throw new Exception("Informe ao menos um produto");
+                    throw new ApplicationException("Informe ao menos um produto");
                 }
 
                 pedido.Id = Guid.NewGuid();
@@ -90,6 +91,37 @@ namespace NetRestaurantAPI.Repositories
             contexto.Database.ExecuteSqlRaw(sql, parametrosPedido);
 
             contexto.Database.CommitTransaction();
+
+            NotificaUsuario(pedido);
+        }
+
+        public async Task NotificaUsuario(Pedido pedido)
+        {
+            try
+            {
+                pedido = contexto.Pedidos.Where(x => x.Id == pedido.Id).FirstOrDefault();
+
+                if(pedido == null)
+                {
+                    return;
+                }                
+
+                var usuario = contexto.Usuarios.FromSqlRaw(@" select Usuarios.Id, Usuarios.Autenticado , Usuarios.Bairro , Usuarios.Cidade , Usuarios.Complemento , Usuarios.Cpf, Usuarios.Email, Usuarios.Numero , usuarios.Nome , usuarios.Rua, Usuarios.Password, Usuarios.Telefone
+                                                              from Usuarios
+                                                              left join Pedidos on UPPER(pedidos.UsuarioId) = UPPER(Usuarios.Id)
+                                                              WHERE Pedidos.Id = @p0 ", new object[] { pedido.Id.ToString().ToUpper() }).FirstOrDefault();
+
+                var notificationToken = contexto.NotificationTokens.Where(x => x.UsuarioId == pedido.Usuario.Id).FirstOrDefault();
+
+                if (notificationToken != null)
+                {
+                    PushNotificationService.SendPushNotifications(new string[] { notificationToken.ExpoToken }, "Pedido Alterado", $"Seu pedido atualizou o status para: {pedido.StatusPedido}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         public void ConfirmaEntregaPedido(Pedido pedido)

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetRestaurantAPI.Models;
 
@@ -10,28 +11,28 @@ using NetRestaurantAPI.Models;
 namespace NetRestaurantAPI.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240425184709_notificationTokens")]
+    partial class notificationTokens
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
 
             modelBuilder.Entity("NetRestaurantAPI.Models.NotificationTokens", b =>
                 {
-                    b.Property<Guid>("UsuarioId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("ExpoToken")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DeviceOS")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ExpoToken")
-                        .IsRequired()
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("UsuarioId");
+                    b.HasKey("ExpoToken");
 
                     b.ToTable("NotificationTokens");
                 });

@@ -49,5 +49,20 @@ namespace NetRestaurantAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("NotificationToken")]
+        public ActionResult PostNotificationToken(NotificationTokens notification)
+        {
+            try
+            {
+                this.usuarioRepository.InsereTokenNotificacao(notification);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

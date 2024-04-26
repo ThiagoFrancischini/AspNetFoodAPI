@@ -14,7 +14,7 @@ namespace NetRestaurantAPI.Repositories
 
             if (contexto.Usuarios.Where(user => user.Cpf == usuario.Cpf).ToList().Count > 0)
             {
-                throw new Exception("Usuário com este CPF já cadastrado!");
+                throw new ApplicationException("Usuário com este CPF já cadastrado!");
             }            
 
             contexto.Usuarios.Add(usuario);
@@ -34,7 +34,26 @@ namespace NetRestaurantAPI.Repositories
                 return usuario;
             }
 
-            throw new Exception("Usuário não encontrado!");
+            throw new ApplicationException("Usuário não encontrado!");
+        }
+
+        public void InsereTokenNotificacao(NotificationTokens notificationToken)
+        {
+            if(contexto.NotificationTokens.Where(x=> x.ExpoToken == notificationToken.ExpoToken).Any())
+            {
+                return;
+            }
+
+            if (contexto.NotificationTokens.Where(x=> x.UsuarioId == notificationToken.UsuarioId).Any())
+            {                                
+                contexto.NotificationTokens.Update(notificationToken);
+            }
+            else
+            {
+                contexto.NotificationTokens.Add(notificationToken);
+            }            
+
+            contexto.SaveChanges();            
         }
     }
 }

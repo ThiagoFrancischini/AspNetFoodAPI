@@ -10,6 +10,7 @@ namespace NetRestaurantAPI.Models
         public DbSet<Product> Produtos { get; set; } 
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
+        public DbSet<NotificationTokens> NotificationTokens { get; set; }
         public Contexto(DbContextOptions<Contexto> opcoes) : base(opcoes)
         {
             

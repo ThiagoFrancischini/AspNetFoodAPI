@@ -21,14 +21,14 @@ namespace NetRestaurantAPI.Repositories
             
             if(id == Guid.Empty) 
             {
-                throw new Exception("Informe um identificador de produto válido");
+                throw new ApplicationException("Informe um identificador de produto válido");
             }
 
             var produto =  contexto.Produtos.SingleOrDefault(produto => produto.Id == id);            
 
             if(produto == null) 
             {
-                throw new Exception("Produto não encontrado");
+                throw new ApplicationException("Produto não encontrado");
             }
 
             return produto; 

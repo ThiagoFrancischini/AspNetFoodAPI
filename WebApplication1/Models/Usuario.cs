@@ -28,7 +28,7 @@ namespace NetRestaurantAPI.Models
         public string Numero { get; set; }
         public string Complemento { get; set; }
         public bool Autenticado { get; set; }
-        public string Telefone { get; set; }
+        public string Telefone { get; set; }        
         public void EntidadeValida()
         {
             if(Id == Guid.Empty) 

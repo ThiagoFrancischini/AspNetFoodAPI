@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NetRestaurantAPI.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Contexto>(opcoes => opcoes.UseSqlite(builder.Configuration.GetConnectionString("ConexaoSQLite")));
 builder.Services.AddControllers();
+
+//var jwtIssuer = builder.Configuration.GetSection("Jwt:Issuer").Get<string>();
+//var jwtKey = builder.Configuration.GetSection("Jwt:Key").Get<string>();
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidIssuer = jwtIssuer,
+//        ValidAudience = jwtIssuer,
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+//    };
+//}
+//);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
